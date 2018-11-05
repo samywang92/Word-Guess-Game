@@ -21,26 +21,37 @@ var game = {
     wordDisplayed: [], //successful guesses and display// ex: a__l_
     pastGuesses: [],
 
-    compare: function(letter){
-        var letterLocations = [];
+    compareAndUpdate: function(letter){
+        var letterLocation = [];
         var letterFound;
         for(var i in this.currentWord){
             if(letter === currentWord[i]){
-                letterLocations 
+                letterLocation.push(i);
                 letterFound = true;
             }else{
-                false;
+                letterFound = false;
             }
         }
-
+        if(letterFound){
+            for(var i in letterLocation){
+                this.wordDisplayed[letterLocation[i]] = letter;
+                console.log("letter has been updated");
+            }
+        }
     },
 
-    convert: function(word){
+    convert: function(word){ // converts word from bank to an array and also updates wordDisplay to have underscores
         for(var i = 0; i < word.length; i++){
             //console.log(word.charAt(i));
             this.currentWord.push(word.charAt(i));
             console.log("letter: " + this.currentWord[i]);
         }
+
+        for(var i = 0; i < this.currentWord; i++){
+            this.wordDisplayed.push("_");
+            console.log("Testing current word: " + wordDisplayed[i]);
+        }
+
     },
 
     getWordFromBank: function(){
