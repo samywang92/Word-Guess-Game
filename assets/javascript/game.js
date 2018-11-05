@@ -37,6 +37,8 @@ var game = {
                 this.wordDisplayed[letterLocation[i]] = letter;
                 console.log("letter has been updated");
             }
+        }else{
+            console.error("No letter was found");
         }
     },
 
@@ -72,14 +74,14 @@ var game = {
     }
     
 }
-console.log("test generator")
-testVar1 = game.getWordFromBank()
-console.log(testVar1);
-console.log("test convert to array of letters")
-game.convert(testVar1);
-for(var i in game.currentWord){
-    console.log(game.currentWord[i]);
-}
+// console.log("test generator")
+// testVar1 = game.getWordFromBank()
+// console.log(testVar1);
+// console.log("test convert to array of letters")
+// game.convert(testVar1);
+// for(var i in game.currentWord){
+//     console.log(game.currentWord[i]);
+// }
 // this.CurrentWord.forEach(element => {
 //     console.log(currentWord[element]);
 // });
@@ -87,6 +89,7 @@ for(var i in game.currentWord){
 // for(var i = 0; i < this.currentWord.length; i++){
 //     console.log(currentWord[i]);
 // }
+
 
 
 
