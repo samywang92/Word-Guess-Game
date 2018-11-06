@@ -2,6 +2,8 @@
 ////Need to debug. some times when entering letters over and over, game will just reset ?
 ////Game only resets after another letter is pushed not immediately after the word is guessed
 ////Some letters do not show in user's past guess for some reason
+////Need to actually implement number of guesses left rules
+////Need to implement check if past letter has been entered
 
 var userGuessDisplay = document.getElementById("user-guess");
 var wordDisplay = document.getElementById("word");
