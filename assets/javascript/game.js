@@ -3,7 +3,8 @@
 ////Game only resets after another letter is pushed not immediately after the word is guessed
 ////Some letters do not show in user's past guess for some reason
 ////Need to actually implement number of guesses left rules
-////Need to implement check if past letter has been entered
+////Need to implement check if past letter has been entered - complete
+////Split game back into game, player, and primary javascript to clean code - ask if you can have multiple javascript files linked or google it
 
 var userGuessDisplay = document.getElementById("user-guess");
 var wordDisplay = document.getElementById("word");
@@ -57,10 +58,8 @@ var game = {
         for (var i in this.pastGuesses){
             if(letter === this.pastGuesses[i]){
                 previouslyFound = true;
-                console.log("previously found");
             } else {
                 previouslyFound = false;
-                console.error("not previously found");
             }
         }
         for(var i in this.currentWord){
@@ -79,7 +78,7 @@ var game = {
                 this.wordDisplayed[letterLocation[i]] = letter; //updates display
             }
         }else{
-            console.error("No letter was found");
+            console.error("No letter was found or it was previously inputted");
         }
         wordDisplay.textContent = this.wordDisplayed;
         pastGuessDisplay.textContent = this.pastGuesses;
