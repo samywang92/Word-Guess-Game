@@ -1,3 +1,8 @@
+////NOV 5 - Basics of game complete. 
+////Need to debug. some times when entering letters over and over, game will just reset ?
+////Game only resets after another letter is pushed not immediately after the word is guessed
+////Some letters do not show in user's past guess for some reason
+
 var userGuessDisplay = document.getElementById("user-guess");
 var wordDisplay = document.getElementById("word");
 var numGuessDisplay = document.getElementById("guesses-left");
