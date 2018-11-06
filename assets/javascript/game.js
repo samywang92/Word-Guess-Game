@@ -53,11 +53,25 @@ var game = {
     compareAndUpdate: function(letter){
         var letterLocation = [];
         var letterFound;
+        var previouslyFound;
+        for (var i in this.pastGuesses){
+            if(letter === this.pastGuesses[i]){
+                previouslyFound = true;
+                console.log("previously found");
+            } else {
+                previouslyFound = false;
+                console.error("not previously found");
+            }
+        }
         for(var i in this.currentWord){
-            if(letter === this.currentWord[i]){
+            if(letter === this.currentWord[i] && !previouslyFound){
                 letterLocation.push(i);
                 this.pastGuesses.push(letter);
                 letterFound = true;
+            } else if (previouslyFound){
+                console.log("letter was previously found");
+            } else {
+                console.error("invalid input of some sort");
             }
         }
         if(letterFound){
