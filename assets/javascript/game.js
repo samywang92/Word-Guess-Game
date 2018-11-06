@@ -3,9 +3,12 @@ var wordDisplay = document.getElementById("word");
 var numGuessDisplay = document.getElementById("guesses-left");
 var pastGuessDisplay = document.getElementById("past-guesses");
 var statusDislay = document.getElementById("status");
+var wordSolved = true;
+var currentGameWord;
 
 var testVar1;
 var testVar2;
+
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -20,40 +23,58 @@ var game = {
     numGuesses : 0,
     wordDisplayed: [], //successful guesses and display// ex: a__l_
     pastGuesses: [],
+    isSolved: false,
+
+    isWordSolved: function(){
+        for (var i in this.currentWord){
+            if(this.currentWord[i] === this.wordDisplayed[i]){
+                this.isSolved = true;
+            }else{
+                this.isSolved = false;
+            }
+        }
+        return this.isSolved;
+    },
+
+    clear: function(){ // clears all arrays
+        this.currentWord.length = 0;
+        this.wordDisplayed.length = 0;
+        this.pastGuesses.length = 0;
+        console.log("cleared");
+    },
 
     compareAndUpdate: function(letter){
         var letterLocation = [];
         var letterFound;
         for(var i in this.currentWord){
-            if(letter === currentWord[i]){
+            if(letter === this.currentWord[i]){
                 letterLocation.push(i);
+                this.pastGuesses.push(letter);
                 letterFound = true;
-            }else{
-                letterFound = false;
             }
         }
         if(letterFound){
             for(var i in letterLocation){
-                this.wordDisplayed[letterLocation[i]] = letter;
-                console.log("letter has been updated");
+                this.wordDisplayed[letterLocation[i]] = letter; //updates display
             }
         }else{
             console.error("No letter was found");
         }
+        wordDisplay.textContent = this.wordDisplayed;
+        pastGuessDisplay.textContent = this.pastGuesses;
+        letterFound = false; //set letterFound to default;
     },
 
     convert: function(word){ // converts word from bank to an array and also updates wordDisplay to have underscores
         for(var i = 0; i < word.length; i++){
             //console.log(word.charAt(i));
             this.currentWord.push(word.charAt(i));
-            console.log("letter: " + this.currentWord[i]);
         }
 
-        for(var i = 0; i < this.currentWord; i++){
+        for(var i = 0; i < this.currentWord.length; i++){
             this.wordDisplayed.push("_");
-            console.log("Testing current word: " + wordDisplayed[i]);
         }
-
+        wordDisplay.textContent = this.wordDisplayed;
     },
 
     getWordFromBank: function(){
@@ -90,6 +111,23 @@ var game = {
 //     console.log(currentWord[i]);
 // }
 
+
+document.onkeyup = function(e) {
+    var userInput = e.key;
+    userGuessDisplay.textContent = userInput;
+    
+    if(wordSolved){ //initial start 
+        game.clear();
+        currentGameWord = game.getWordFromBank();
+        console.log(currentGameWord);
+        game.convert(currentGameWord);
+        game.compareAndUpdate(userInput);
+        wordSolved = false;
+    }else{
+        game.compareAndUpdate(userInput);
+        wordSolved = game.isWordSolved();
+    }
+}
 
 
 
