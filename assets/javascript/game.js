@@ -65,7 +65,7 @@ var game = {
         for(var i in this.currentWord){
             if(letter === this.currentWord[i] && !previouslyFound){
                 letterLocation.push(i);
-                this.pastGuesses.push(letter);
+                //this.pastGuesses.push(letter);
                 letterFound = true;
             } else if (previouslyFound){
                 console.log("letter was previously found");
@@ -103,7 +103,14 @@ var game = {
     },
 
     setPastGuesses: function(guess){
-        this.pastGuesses.push(guess);
+        if(this.pastGuesses.length == 0){
+            this.pastGuesses.push(guess);
+        }
+        for (var i in this.pastGuesses){
+            if(!(this.pastGuesses[i].includes(guess))){
+                this.pastGuesses.push(guess);
+            } 
+        }
     },
 
     getPastGuesses: function(){
@@ -142,9 +149,11 @@ document.onkeyup = function(e) {
         console.log(currentGameWord);
         game.convert(currentGameWord);
         game.compareAndUpdate(userInput);
+        game.setPastGuesses(userInput);
         wordSolved = false;
     }else{
         game.compareAndUpdate(userInput);
+        game.setPastGuesses(userInput);
         wordSolved = game.isWordSolved();
     }
 }
