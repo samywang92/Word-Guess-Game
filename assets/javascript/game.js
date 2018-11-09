@@ -103,13 +103,9 @@ var game = {
     },
 
     setPastGuesses: function(guess){
-        if(this.pastGuesses.length == 0){
+        var index = this.pastGuesses.indexOf(guess);
+        if(index === -1) {
             this.pastGuesses.push(guess);
-        }
-        for (var i in this.pastGuesses){
-            if(!(this.pastGuesses[i].includes(guess))){
-                this.pastGuesses.push(guess);
-            } 
         }
     },
 
