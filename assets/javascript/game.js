@@ -28,7 +28,7 @@ var game = {
     maxGuesses: 10,
     wordBank: ['kirby','pit','zelda','link','pikachu'],
     currentWord: [], //word pulled from the bank in an array of characters
-    numGuesses : 0,
+    //numGuesses : 0,
     wordDisplayed: [], //successful guesses and display// ex: a__l_
     pastGuesses: [],
     isSolved: false,
@@ -48,13 +48,17 @@ var game = {
         this.currentWord.length = 0;
         this.wordDisplayed.length = 0;
         this.pastGuesses.length = 0;
+        this.maxGuesses = 10;
+        numGuessDisplay.textContent = this.maxGuesses;
+        wordDisplay.innerHTML = "";
+        pastGuessDisplay.innerHTML = "";
+        userGuessDisplay.innerHTML = "";
         console.log("cleared");
     },
 
     compareAndUpdate: function(letter){
-        var letterLocation = [];
-        var letterFound;
         var previouslyFound;
+        var letterFound = false;
         for (var i in this.pastGuesses){
             if(letter === this.pastGuesses[i]){
                 previouslyFound = true;
@@ -64,25 +68,21 @@ var game = {
         }
         for(var i in this.currentWord){
             if(letter === this.currentWord[i] && !previouslyFound){
-                letterLocation.push(i);
+                //letterLocation.push(i);
                 //this.pastGuesses.push(letter);
+                this.wordDisplayed[i] = letter;
                 letterFound = true;
             } else if (previouslyFound){
                 console.log("letter was previously found");
             } else {
-                console.error("invalid input of some sort");
+                console.error("incorrect letter");
             }
         }
-        if(letterFound){
-            for(var i in letterLocation){
-                this.wordDisplayed[letterLocation[i]] = letter; //updates display
-            }
-        }else{
-            console.error("No letter was found or it was previously inputted");
+        if(letterFound===false){
+            this.setGuessesLeft();
         }
         wordDisplay.textContent = this.wordDisplayed;
-        pastGuessDisplay.textContent = this.pastGuesses;
-        letterFound = false; //set letterFound to default;
+        //pastGuessDisplay.textContent = this.pastGuesses;
     },
 
     convert: function(word){ // converts word from bank to an array and also updates wordDisplay to have underscores
@@ -107,51 +107,54 @@ var game = {
         if(index === -1) {
             this.pastGuesses.push(guess);
         }
+        pastGuessDisplay.textContent = this.pastGuesses;
     },
 
-    getPastGuesses: function(){
-        return this.pastGuesses;
-    },
 
-    setGuessesLeft: function(maxGuesses){
-        return maxGuesses - this.numGuesses;
+    setGuessesLeft: function(){
+        this.maxGuesses --;
+        numGuessDisplay.textContent = this.maxGuesses;
     }
     
 }
-// console.log("test generator")
-// testVar1 = game.getWordFromBank()
-// console.log(testVar1);
-// console.log("test convert to array of letters")
-// game.convert(testVar1);
-// for(var i in game.currentWord){
-//     console.log(game.currentWord[i]);
-// }
-// this.CurrentWord.forEach(element => {
-//     console.log(currentWord[element]);
-// });
-// console.log(this.currentWord.length);
-// for(var i = 0; i < this.currentWord.length; i++){
-//     console.log(currentWord[i]);
-// }
+
 
 
 document.onkeyup = function(e) {
     var userInput = e.key;
     userGuessDisplay.textContent = userInput;
+
     
-    if(wordSolved){ //initial start 
-        game.clear();
+    if(wordSolved){//initial start 
+        //game.clear();
         currentGameWord = game.getWordFromBank();
         console.log(currentGameWord);
         game.convert(currentGameWord);
         game.compareAndUpdate(userInput);
         game.setPastGuesses(userInput);
+        //game.setGuessesLeft();
         wordSolved = false;
+    } else if (game.maxGuesses === 0){
+        wordSolved = true;
+        //alert("Game over!");
+        statusDislay.textContent = "You lost.";
+        game.clear();
+
     }else{
         game.compareAndUpdate(userInput);
         game.setPastGuesses(userInput);
+        //game.setGuessesLeft();
         wordSolved = game.isWordSolved();
+        console.log(game.maxGuesses);
+        if(wordSolved === true){
+            statusDislay.textContent = "You Won.";
+            game.clear();
+        }
     }
+
+    
+
+    
 }
 
 
